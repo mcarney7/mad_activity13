@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "884888645758",
+    "project_id": "mad-activity13",
+    "storage_bucket": "mad-activity13.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884888645758:android:004690c64f8fe3e655a82f",
+        "android_client_info": {
+          "package_name": "mad.activity13"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvmUOf91qbszOUnk8z_JQuHXEOJF053Y4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
