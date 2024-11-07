@@ -12,12 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-
-  # Firebase dependencies with specified version numbers
   firebase_core: ^2.11.0
-  firebase_auth: ^4.6.0
-  firebase_auth_web: ^5.8.13  # Added for web-specific Firebase authentication
-  js: ^0.6.5  # Added to handle JavaScript interop issues
+  firebase_auth: ^4.20.0
 
 dev_dependencies:
   flutter_test:

@@ -12,20 +12,23 @@ class _AuthScreenState extends State<AuthScreen> {
   final AuthService _authService = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String? _errorMessage;
 
-  // Validation checks for email and password requirements
-  String? _emailValidator(String email) {
-    if (!RegExp(r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-z]+$").hasMatch(email)) {
-      return 'Enter a valid email address';
+  void _register() async {
+    User? user = await _authService.registerWithEmailAndPassword(
+      _emailController.text,
+      _passwordController.text,
+    );
+    if (user != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ProfileScreen()),
+      );
+    } else {
+      setState(() {
+        _errorMessage = 'Registration failed. Please try again.';
+      });
     }
-    return null;
-  }
-
-  String? _passwordValidator(String password) {
-    if (password.length < 6) {
-      return 'Password must be at least 6 characters';
-    }
-    return null;
   }
 
   void _signIn() async {
@@ -35,22 +38,13 @@ class _AuthScreenState extends State<AuthScreen> {
     );
     if (user != null) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+        context,
+        MaterialPageRoute(builder: (context) => ProfileScreen()),
+      );
     } else {
-      print('Sign-in failed');
-    }
-  }
-
-  void _register() async {
-    User? user = await _authService.registerWithEmailAndPassword(
-      _emailController.text,
-      _passwordController.text,
-    );
-    if (user != null) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => ProfileScreen()));
-    } else {
-      print('Registration failed');
+      setState(() {
+        _errorMessage = 'Sign-in failed. Please check your credentials.';
+      });
     }
   }
 
@@ -72,23 +66,21 @@ class _AuthScreenState extends State<AuthScreen> {
               decoration: InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
+            if (_errorMessage != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  _errorMessage!,
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
             ElevatedButton(
-              onPressed: () {
-                if (_emailValidator(_emailController.text) == null &&
-                    _passwordValidator(_passwordController.text) == null) {
-                  _signIn();
-                }
-              },
-              child: Text('Sign In'),
+              onPressed: _register,
+              child: Text('Register'),
             ),
             ElevatedButton(
-              onPressed: () {
-                if (_emailValidator(_emailController.text) == null &&
-                    _passwordValidator(_passwordController.text) == null) {
-                  _register();
-                }
-              },
-              child: Text('Register'),
+              onPressed: _signIn,
+              child: Text('Sign In'),
             ),
           ],
         ),

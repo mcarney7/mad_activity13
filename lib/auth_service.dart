@@ -3,21 +3,40 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Register a user with email and password
+  // Register user with email and password
   Future<User?> registerWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       return result.user;
+    } on FirebaseAuthException catch (e) {
+      // Print and handle specific Firebase errors
+      if (e.code == 'email-already-in-use') {
+        print('The email address is already in use by another account.');
+      } else if (e.code == 'invalid-email') {
+        print('The email address is not valid.');
+      } else if (e.code == 'operation-not-allowed') {
+        print('Email/password accounts are not enabled.');
+      } else if (e.code == 'weak-password') {
+        print('The password is too weak.');
+      }
+      print('Registration error: ${e.message}');
+      return null;
     } catch (e) {
-      print('Registration error: $e');
+      print('Unexpected error: $e');
       return null;
     }
   }
 
-  // Sign in a user with email and password
+  // Sign in user with email and password
   Future<User?> signInWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       return result.user;
     } catch (e) {
       print('Sign-in error: $e');
@@ -25,16 +44,11 @@ class AuthService {
     }
   }
 
-  // Change the user's password
-  Future<void> changePassword(String newPassword) async {
-    await _auth.currentUser?.updatePassword(newPassword);
-  }
-
-  // Sign out the current user
+  // Sign out user
   Future<void> signOut() async {
     await _auth.signOut();
   }
 
-  // Get the current user
+  // Get current user
   User? get currentUser => _auth.currentUser;
 }
