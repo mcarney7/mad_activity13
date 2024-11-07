@@ -17,7 +17,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Firebase Auth Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.teal,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.teal,
+          secondary: Colors.tealAccent,
+        ),
+        buttonTheme: ButtonThemeData(buttonColor: Colors.teal),
       ),
       home: AuthScreen(),
     );

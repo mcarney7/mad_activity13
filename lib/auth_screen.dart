@@ -51,19 +51,36 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sign In / Register')),
+      appBar: AppBar(
+        title: Text('Sign In / Register'),
+        backgroundColor: Colors.teal,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(
+                labelText: 'Email',
+                labelStyle: TextStyle(color: Colors.teal),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                ),
+              ),
               keyboardType: TextInputType.emailAddress,
             ),
+            SizedBox(height: 16),
             TextField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(
+                labelText: 'Password',
+                labelStyle: TextStyle(color: Colors.teal),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                ),
+              ),
               obscureText: true,
             ),
             if (_errorMessage != null)
@@ -71,16 +88,26 @@ class _AuthScreenState extends State<AuthScreen> {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
                   _errorMessage!,
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: Colors.redAccent),
                 ),
               ),
+            SizedBox(height: 16),
             ElevatedButton(
               onPressed: _register,
-              child: Text('Register'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 12),
+              ),
+              child: Text('Register', style: TextStyle(color: Colors.white)),
             ),
+            SizedBox(height: 8),
             ElevatedButton(
               onPressed: _signIn,
-              child: Text('Sign In'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal[700],
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 12),
+              ),
+              child: Text('Sign In', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
