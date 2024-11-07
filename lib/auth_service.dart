@@ -12,7 +12,6 @@ class AuthService {
       );
       return result.user;
     } on FirebaseAuthException catch (e) {
-      // Print and handle specific Firebase errors
       if (e.code == 'email-already-in-use') {
         print('The email address is already in use by another account.');
       } else if (e.code == 'invalid-email') {
@@ -41,6 +40,16 @@ class AuthService {
     } catch (e) {
       print('Sign-in error: $e');
       return null;
+    }
+  }
+
+  // Change user password
+  Future<void> changePassword(String newPassword) async {
+    try {
+      await _auth.currentUser?.updatePassword(newPassword);
+      print('Password changed successfully');
+    } catch (e) {
+      print('Error changing password: $e');
     }
   }
 
